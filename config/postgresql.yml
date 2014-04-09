@@ -1,0 +1,24 @@
+Default: &defaults
+  user: yesod-split-testing
+  password: yesod-split-testing
+  host: localhost
+  port: 5432
+  database: yesod-split-testing
+  poolsize: 10
+
+Development:
+  <<: *defaults
+
+Testing:
+  database: yesod-split-testing_test
+  <<: *defaults
+
+Staging:
+  database: yesod-split-testing_staging
+  poolsize: 100
+  <<: *defaults
+
+Production:
+  database: yesod-split-testing_production
+  poolsize: 100
+  <<: *defaults
