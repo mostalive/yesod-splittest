@@ -18,7 +18,7 @@ helpful for ubuntu 12.04 .
 
 Also check your cabal version, and if the path is set correctly. E.g.
 
-'''bash
+```bash
 > which cabal
 /home/willem/.cabal/bin/cabal
 
@@ -26,7 +26,7 @@ Also check your cabal version, and if the path is set correctly. E.g.
 
 cabal-install version 1.18.0.3
 using version 1.18.1.3 of the Cabal library 
-'''
+```
 
 Some postgres magic from this post about [installing Yesod with postgres
 and
@@ -36,9 +36,9 @@ Was useful. Modifying pg_hba.conf so we can actually access a database
 is something that is easy to forget. Do not forget to restart
 postgres after changing the config files
 
-'''
+```
 service postgresql restart
-'''
+```
 
 In addition we needed to grant access to the database
 through the postgresql prompt and re-set the password through the prompt
@@ -46,7 +46,7 @@ as well. We chose not to have dashes in the databasename, as that forces
 escaping all the time. Not sure why the user was not given access to the
 database when creating (we installed postgresql 9.1).
 
-'''
+```
 postgres=# grant all privileges on database splittest to splittest;
 GRANT
 postgres=# \list
@@ -78,7 +78,7 @@ psql (9.1.13)
 Type "help" for help.
 
 postgres=# alter role splittest with password 'splittest';
-'''
+```
 
 Note the display after the \list command should mention the splittest
 user in the rightmost column.
@@ -89,16 +89,16 @@ compiler](https://github.com/faylang/fay/wiki) do
 its' work. Specify the location of your package sandbox in an
 environment variable:
 
-'''bash
+```bash
 export HASKELL_PACKAGE_SANDBOX=.cabal-sandbox/x86_64-linux-ghc-7.6.3-packages.conf.d/
-'''
+```
 
 The exact path depends on your operating system and compiler version.
 
 We work in a sandbox.
 
-'''bash
+```bash
 cabal sandbox init
 cabal install --only-dependencies
 cabal build
-'''
+```
