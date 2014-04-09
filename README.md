@@ -1,3 +1,11 @@
+=======
+yesod-splittest
+===============
+
+Space for various experiments with Yesod, a/b split-testing, javascript
+widgets, multi-tenancy.
+
+
 This repository is a work in progress, a first
 [Yesod](http://www.yesodweb.com) application. We want to explore a type
 safe way of building web applications to see if we can build web
