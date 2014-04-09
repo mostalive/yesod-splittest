@@ -1,9 +1,9 @@
 Default: &defaults
-  user: yesod-split-testing
-  password: yesod-split-testing
+  user: splittest
+  password: splittest
   host: localhost
   port: 5432
-  database: yesod-split-testing
+  database: splittest
   poolsize: 10
 
 Development:
