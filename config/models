@@ -10,3 +10,9 @@ Email
     UniqueEmail email
 
  -- By default this file is used in Model.hs (which is imported by Foundation.hs)
+ -- Field types and other options available: https://www.fpcomplete.com/school/advanced-haskell/persistent-in-detail/existing-database
+
+FeaturesDetected
+    timestamp UTCTime default=now() -- now() is a postgresql function
+    querySelector Bool default=FALSE -- preferred form http://www.postgresql.org/docs/8.1/static/datatype-boolean.html
+    deriving Show

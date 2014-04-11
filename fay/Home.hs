@@ -27,8 +27,23 @@ alert = ffi "window.alert(%1)"
 parseInt :: String -> Fay Int
 parseInt = ffi "window.parseInt(%1, 10)"
 
+-- useful documentation https://github.com/faylang/fay/wiki/Foreign-function-interface
+
+documentSupports :: String -> Fay Bool
+documentSupports = ffi "!(typeof document[%1] == \"undefined\")"
+
+supportsQuerySelector :: Fay Bool
+supportsQuerySelector = documentSupports "querySelector"
+
 main :: Fay ()
 main = do
+    --putStrLn supportsQuerySelector
+    putStrLn "Hello Console"
+    if supportsQuerySelector -- if seems broken, always print the first, regardless of value
+       then putStrLn "query selector supported"
+       else putStrLn "no query selector"
+    putStrLn $ show $ supportsQuerySelector -- prints true, as expected
+    putStrLn $ show  $ documentSupports "querySelector" -- prints true as well
     input <- getElementById "fibindex"
     result <- getElementById "fibresult"
     onKeyUp input $ do

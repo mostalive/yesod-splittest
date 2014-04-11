@@ -9,7 +9,7 @@ widgets, multi-tenancy.
 This repository is a work in progress, a first
 [Yesod](http://www.yesodweb.com) application. We want to explore a type
 safe way of building web applications to see if we can build web
-applications faster in the short as well as the long term. 
+applications faster in the short as well as the long term.
 
 This works with ghc version 7.6.3 . Check with ghc --version if you have
 the correct one. Otherwise, we found [these instructions to install cabal and
@@ -25,7 +25,7 @@ Also check your cabal version, and if the path is set correctly. E.g.
 > cabal --version
 
 cabal-install version 1.18.0.3
-using version 1.18.1.3 of the Cabal library 
+using version 1.18.1.3 of the Cabal library
 ```
 
 Some postgres magic from this post about [installing Yesod with postgres
@@ -34,17 +34,40 @@ fay](http://www.hoppinger.com/blog/haskell-in-the-browser-setting-up-yesod-and-f
 
 Was useful. Modifying pg_hba.conf so we can actually access a database
 is something that is easy to forget. Do not forget to restart
-postgres after changing the config files
+postgres after changing the config files. I found it ore reliable to just log in to psql, the postgres command line and create the user (users are called roles in postgres) and database from there. See below for details.
 
 ```
 service postgresql restart
 ```
 
-In addition we needed to grant access to the database
+Create the role and database through postgres. If you need more, read [how to use roles and manage grant permissions in postgres](https://www.digitalocean.com/community/articles/how-to-use-roles-and-manage-grant-permissions-in-postgresql-on-a-vps--2)
+
+'''bash
+> sudo -u postgres psql
+postgres# create role splittest password 'splittest' with login;
+postgres# create database splittest owner splittest;
+'''
+
+You can exit the psql shell by pressing ctrl-D.
+
+This should give the user splittest access to the database. Test it with:
+
+'''bash
+
+'''
+
+We alsoo can grant access to the database
 through the postgresql prompt and re-set the password through the prompt
-as well. We chose not to have dashes in the databasename, as that forces
-escaping all the time. Not sure why the user was not given access to the
-database when creating (we installed postgresql 9.1).
+as well. We chose not to have dashes in the database name, as that forces
+escaping all the time.
+
+In case of doubt, use the help command, e.g.
+
+'''bash
+  \help create
+  ... command syntax
+  \help create database
+'''
 
 ```
 postgres=# grant all privileges on database splittest to splittest;
@@ -52,9 +75,9 @@ GRANT
 postgres=# \list
                                    List of databases
    Name    |   Owner   | Encoding |   Collate   |    Ctype    |
-Access privileges    
+Access privileges
 -----------+-----------+----------+-------------+-------------+-------------------------
- postgres  | postgres  | UTF8     | en_US.UTF-8 | en_US.UTF-8 | 
+ postgres  | postgres  | UTF8     | en_US.UTF-8 | en_US.UTF-8 |
  splittest | splittest | UTF8     | en_US.UTF-8 | en_US.UTF-8 | =Tc/splittest          +
            |           |          |             |             | splittest=CTc/splittest
  template0 | postgres  | UTF8     | en_US.UTF-8 | en_US.UTF-8 | =c/postgres            +
@@ -70,7 +93,7 @@ psql (9.1.13)
 Type "help" for help.
 
 root@haskell_dev:~# psql -U splittest -d splittest
-Password for user splittest: 
+Password for user splittest:
 psql: FATAL:  password authentication failed for user "splittest"
 root@haskell_dev:~# sudo -u postgres psql
 could not change directory to "/root"

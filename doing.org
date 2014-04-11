@@ -1,3 +1,6 @@
+#+TODO: OPTION(o) BREAKDOWN(b) TODO(t) STARTED(s) WAITING(w) | DONE(d) CANCELED(c)
+#+TAGS: developing(d) meeting(m) operations (o) planning (p) design(e)
+
 * Feature: client-server browser detection
   In order to decide what javascript features we can use, we want to know what is supported by our (prospective) users' browsers. As developers and user experience persons.
   "Another factor that makes developing for responsive design hard is the rate with which mobile users update their phones and browsers" http://responsivenews.co.uk/post/18948466399/cutting-the-mustard
@@ -5,15 +8,17 @@
 
 ** Cutting the mustoard test client side in FAY
    Inspired by the above and http://gomakethings.com/ditching-jquery-for-vanilla-js/ .
+*** STARTED print presence of elements to consule.
    Start with a type to detect presence of various elements, 'anding' the ones we are interested in is for later. Baby steps:
-*** print presence of elements to consule.
-*** document.QuerySelector
+*** TODO document.QuerySelector
 *** window.addEventListener
 *** Array.prototype.forEach
     We may not care about this, as Fay takes care of our client side code. On the other hand, I ran across some code that did use javascript arrays.
 *** local storage (just out of curiosity)
+*** OPTION support for touch events?
+    Think mobile first
 ** Route to Post to
-** Save result in database
+** STARTED Save result in database
    Timestamp plus detected parameters
 ** Save browser type
    look in to browser fingerprinting?
