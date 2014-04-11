@@ -1,0 +1,26 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+VAGRANTFILE_API_VERSION = "2"
+
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+
+  config.vm.provider :virtualbox do |vb|
+     # needed otherwise haskell-src-exts fail to install due to OOM
+     vb.memory = 2048
+
+     # from http://superuser.com/questions/542709/vagrant-share-host-vpn-with-guest
+     vb.customize ["modifyvm", :id, "--natdnshostresolver1", "on", "--ioapic", "on"]
+  end
+
+  config.vm.box = "ubuntu-13.10"
+  config.vm.box_url = "https://cloud-images.ubuntu.com/vagrant/saucy/20140406/saucy-server-cloudimg-amd64-vagrant-disk1.box"
+
+  proxy = ENV['http_proxy']
+
+  config.vm.provision :shell, :path => "scripts/set-proxy.sh", :args => proxy
+  config.vm.provision :shell, :path => "scripts/system.sh", :args => proxy
+  config.vm.provision :shell, :privileged => false, :path => "scripts/cabal.sh", :args => proxy
+  config.vm.provision :shell, :privileged => false, :path => "scripts/emacs.sh", :args => proxy
+
+end
