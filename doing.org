@@ -1,0 +1,5 @@
+* Feature: client-server browser detection
+  In order to decide what javascript features we can use, we want to know what is supported by our (prospective) users' browsers. As developers and user experience persons.
+  "Another factor that makes developing for responsive design hard is the rate with which mobile users update their phones and browsers" http://responsivenews.co.uk/post/18948466399/cutting-the-mustard
+** Cutting the mustoard test
+   Inspired by the above and http://gomakethings.com/ditching-jquery-for-vanilla-js/
