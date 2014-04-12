@@ -46,7 +46,9 @@ main = do
     putStrLn $ show  $ documentSupports "querySelector" -- prints true as well
     input <- getElementById "fibindex"
     result <- getElementById "fibresult"
+
     onKeyUp input $ do
         indexS <- getAttribute "value" input
         index <- parseInt indexS
-        call (GetFib index) $ setInnerHTML result . show
+--        call (GetFib index) $ setInnerHTML result . show
+        call (PostQuerySelector 0) $ setInnerHTML result . show

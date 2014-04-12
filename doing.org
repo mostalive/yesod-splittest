@@ -10,7 +10,7 @@
    Inspired by the above and http://gomakethings.com/ditching-jquery-for-vanilla-js/ .
 *** STARTED print presence of elements to consule.
    Start with a type to detect presence of various elements, 'anding' the ones we are interested in is for later. Baby steps:
-*** TODO document.QuerySelector
+*** DONE document.QuerySelector
 *** window.addEventListener
 *** Array.prototype.forEach
     We may not care about this, as Fay takes care of our client side code. On the other hand, I ran across some code that did use javascript arrays.

@@ -14,5 +14,5 @@ Email
 
 FeaturesDetected
     timestamp UTCTime default=now() -- now() is a postgresql function
-    querySelector Bool default=FALSE -- preferred form http://www.postgresql.org/docs/8.1/static/datatype-boolean.html
+    querySelector Bool default=false -- preferred form http://www.postgresql.org/docs/8.1/static/datatype-boolean.html
     deriving Show
