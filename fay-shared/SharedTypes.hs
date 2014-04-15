@@ -12,5 +12,5 @@ import FFI
 #endif
 
 data Command = GetFib Int (Returns Int) |
-               PostQuerySelector Int (Returns Bool)
+               PostQuerySelector Bool (Returns Bool)
     deriving (Read, Typeable, Data)
