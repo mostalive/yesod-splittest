@@ -17,8 +17,8 @@ handleBrowserFeatures render q r = do
   liftIO $ putStrLn ("Query selector supported: " ++ (show q))
   currentTime <- liftIO $ getCurrentTime -- we have to move the result from IO UTCTime to UTCTime, hence the arrow
   let featuresDetected = FeaturesDetected currentTime q
-  _ <- runDB $ insert featuresDetected
-  render r $ False
+  f <- runDB $ insert featuresDetected
+  render r $ True
                                    --  lift (liftIO $ putStrLn "Hello")
                                    --  render r $ False
 
