@@ -29,10 +29,10 @@ parseInt = ffi "window.parseInt(%1, 10)"
 
 -- useful documentation https://github.com/faylang/fay/wiki/Foreign-function-interface
 
-documentSupports :: String -> Fay Bool
+documentSupports :: String -> Bool
 documentSupports = ffi "!(typeof document[%1] == \"undefined\")"
 
-supportsQuerySelector :: Fay Bool
+supportsQuerySelector :: Bool
 supportsQuerySelector = documentSupports "querySelector"
 
 main :: Fay ()
@@ -56,4 +56,4 @@ main = do
         index <- parseInt indexS
         putStrLn $ show $ index
 --        call (GetFib index) $ setInnerHTML result . show
-        call (PostQuerySelector True) $ setInnerHTML result . show
+        call (PostQuerySelector supportsQuerySelector) $ setInnerHTML result . show
