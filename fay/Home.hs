@@ -29,10 +29,10 @@ parseInt = ffi "window.parseInt(%1, 10)"
 
 -- useful documentation https://github.com/faylang/fay/wiki/Foreign-function-interface
 
-documentSupports :: String -> Fay Bool
+documentSupports :: String -> Bool
 documentSupports = ffi "!(typeof document[%1] == \"undefined\")"
 
-supportsQuerySelector :: Fay Bool
+supportsQuerySelector :: Bool
 supportsQuerySelector = documentSupports "querySelector"
 
 main :: Fay ()
@@ -42,13 +42,18 @@ main = do
     if supportsQuerySelector -- if seems broken, always print the first, regardless of value
        then putStrLn "query selector supported"
        else putStrLn "no query selector"
-    putStrLn $ show $ supportsQuerySelector -- prints true, as expected
+    -- qs1 <- supportsQuerySelector
+    -- qs <- getAttribute "value" qs1
+    putStrLn $ show $  supportsQuerySelector -- prints true, as expected
     putStrLn $ show  $ documentSupports "querySelector" -- prints true as well
     input <- getElementById "fibindex"
     result <- getElementById "fibresult"
 
+
     onKeyUp input $ do
         indexS <- getAttribute "value" input
+        putStrLn $ show $ indexS
         index <- parseInt indexS
+        putStrLn $ show $ index
 --        call (GetFib index) $ setInnerHTML result . show
-        call (PostQuerySelector 0) $ setInnerHTML result . show
+        call (PostQuerySelector supportsQuerySelector) $ setInnerHTML result . show
