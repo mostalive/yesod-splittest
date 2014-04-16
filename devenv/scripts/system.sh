@@ -3,8 +3,10 @@
 
 PROXY=$1
 
-export http_proxy=$PROXY
-export https_proxy=$PROXY
+if [ ! -z $PROXY ]; then 
+    export http_proxy=$PROXY
+    export https_proxy=$PROXY
+fi
 
 apt-get update
 apt-get install -y build-essential haskell-platform 
