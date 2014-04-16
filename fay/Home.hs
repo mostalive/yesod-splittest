@@ -42,18 +42,18 @@ main = do
     if supportsQuerySelector -- if seems broken, always print the first, regardless of value
        then putStrLn "query selector supported"
        else putStrLn "no query selector"
-    -- qs1 <- supportsQuerySelector
+    let qs1 = supportsQuerySelector
     -- qs <- getAttribute "value" qs1
     putStrLn $ show $  supportsQuerySelector -- prints true, as expected
     putStrLn $ show  $ documentSupports "querySelector" -- prints true as well
     input <- getElementById "fibindex"
     result <- getElementById "fibresult"
-
+    setInnerHTML result (show supportsQuerySelector)
+    call (PostQuerySelector supportsQuerySelector)
 
     onKeyUp input $ do
         indexS <- getAttribute "value" input
         putStrLn $ show $ indexS
         index <- parseInt indexS
         putStrLn $ show $ index
---        call (GetFib index) $ setInnerHTML result . show
-        call (PostQuerySelector supportsQuerySelector) $ setInnerHTML result . show
+        call (GetFib index) $ setInnerHTML result . show
