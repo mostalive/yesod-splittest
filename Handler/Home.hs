@@ -18,7 +18,7 @@ getHomeR = do
         handlerName = "getHomeR" :: Text
     defaultLayout $ do
         aDomId <- newIdent
-        setTitle "Welcome To Yesod!"
+        setTitle "Server side browser feature detection"
         $(widgetFile "homepage")
         $(fayFile' (ConE 'StaticR) "Home")
 

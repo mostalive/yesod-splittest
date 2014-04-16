@@ -35,21 +35,10 @@ documentSupports = ffi "!(typeof document[%1] == \"undefined\")"
 supportsQuerySelector :: Bool
 supportsQuerySelector = documentSupports "querySelector"
 
-main :: Fay ()
-main = do
-    --putStrLn supportsQuerySelector
-    putStrLn "Hello Console"
-    if supportsQuerySelector -- if seems broken, always print the first, regardless of value
-       then putStrLn "query selector supported"
-       else putStrLn "no query selector"
-    let qs1 = supportsQuerySelector
-    -- qs <- getAttribute "value" qs1
-    putStrLn $ show $  supportsQuerySelector -- prints true, as expected
-    putStrLn $ show  $ documentSupports "querySelector" -- prints true as well
+registerFibonacciHandler :: Fay ()
+registerFibonacciHandler = do
     input <- getElementById "fibindex"
     result <- getElementById "fibresult"
-    setInnerHTML result (show supportsQuerySelector)
-    call (PostQuerySelector supportsQuerySelector)
 
     onKeyUp input $ do
         indexS <- getAttribute "value" input
@@ -57,3 +46,18 @@ main = do
         index <- parseInt indexS
         putStrLn $ show $ index
         call (GetFib index) $ setInnerHTML result . show
+
+main :: Fay ()
+main = do
+    let qs1 = supportsQuerySelector -- let necessary to make the call happen?
+    call (PostQuerySelector supportsQuerySelector)
+
+    browserfeaturesElement <- getElementById "browserfeatures"
+
+    if qs1
+       then setInnerHTML browserfeaturesElement "your browser does not support query selector"
+       else setInnerHTML browserfeaturesElement "queryselector supported"
+
+
+
+    registerFibonacciHandler
