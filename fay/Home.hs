@@ -50,7 +50,7 @@ registerFibonacciHandler = do
 main :: Fay ()
 main = do
     let qs1 = supportsQuerySelector -- let necessary to make the call happen?
-    call (PostQuerySelector supportsQuerySelector)
+    call (PostQuerySelector supportsQuerySelector) $ undefined -- we are not interested in the result
 
     browserfeaturesElement <- getElementById "browserfeatures"
 
