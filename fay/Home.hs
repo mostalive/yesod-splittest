@@ -32,6 +32,9 @@ parseInt = ffi "window.parseInt(%1, 10)"
 documentSupports :: String -> Bool
 documentSupports = ffi "!(typeof document[%1] == \"undefined\")"
 
+hasEventListener :: Bool
+hasEventListener = ffi "(typeof window['addEventListener'] == \"function\")"
+
 supportsQuerySelector :: Bool
 supportsQuerySelector = documentSupports "querySelector"
 
@@ -55,9 +58,15 @@ main = do
     browserfeaturesElement <- getElementById "browserfeatures"
 
     if qs1
-       then setInnerHTML browserfeaturesElement "your browser does not support query selector"
-       else setInnerHTML browserfeaturesElement "queryselector supported"
+       then setInnerHTML browserfeaturesElement "queryselector"
+       else setInnerHTML browserfeaturesElement "no queryselector"
 
+    let ael = hasEventListener
+    putStrLn $ show $ ael
+
+    if return ael
+       then setInnerHTML browserfeaturesElement "event listener"
+       else setInnerHTML browserfeaturesElement "no event listener"
 
 
     registerFibonacciHandler
