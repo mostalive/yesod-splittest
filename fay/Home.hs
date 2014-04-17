@@ -35,8 +35,17 @@ documentSupports = ffi "!(typeof document[%1] == \"undefined\")"
 hasEventListener :: Bool
 hasEventListener = ffi "(typeof window['addEventListener'] == \"function\")"
 
+hasRequestAnimationFrame :: Bool
+hasRequestAnimationFrame = ffi "(typeof window['requestAnimationFrame'] == \"function\")"
+
+hasLocalStorage :: Bool
+hasLocalStorage = ffi "(typeof window['localStorage'] == \"object\")"
+
 supportsQuerySelector :: Bool
 supportsQuerySelector = documentSupports "querySelector"
+
+-- hasClassList :: String -> Bool
+
 
 registerFibonacciHandler :: Fay ()
 registerFibonacciHandler = do
@@ -68,5 +77,9 @@ main = do
        then setInnerHTML browserfeaturesElement "event listener"
        else setInnerHTML browserfeaturesElement "no event listener"
 
+    let animFrame = hasRequestAnimationFrame
+    putStrLn $ show $ animFrame
+    let localStor = hasLocalStorage
+    putStrLn $ show $ localStor
 
     registerFibonacciHandler

@@ -16,6 +16,7 @@
     We may not care about this, as Fay takes care of our client side code. On the other hand, I ran across some code that did use javascript arrays.
 *** requestAnimationFrame http://www.paulirish.com/2011/requestanimationframe-for-smart-animating/
 *** local storage (just out of curiosity)
+*** classList support
 *** OPTION support for touch events?
     Think mobile first
 ** DONE Route to Post to
