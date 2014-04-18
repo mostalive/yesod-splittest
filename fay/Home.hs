@@ -46,6 +46,12 @@ supportsQuerySelector = documentSupports "querySelector"
 
 -- hasClassList :: String -> Bool
 
+showSupport :: Bool -> String -> String 
+showSupport True display = "<li>" ++ display ++ "</li>" 
+showSupport False _ = ""
+
+emptyCallback :: Bool -> Fay ()
+emptyCallback = ffi "2 + 3"
 
 registerFibonacciHandler :: Fay ()
 registerFibonacciHandler = do
@@ -62,20 +68,16 @@ registerFibonacciHandler = do
 main :: Fay ()
 main = do
     let qs1 = supportsQuerySelector -- let necessary to make the call happen?
-    call (PostQuerySelector supportsQuerySelector) $ undefined -- we are not interested in the result
-
-    browserfeaturesElement <- getElementById "browserfeatures"
-
-    if qs1
-       then setInnerHTML browserfeaturesElement "queryselector"
-       else setInnerHTML browserfeaturesElement "no queryselector"
+    call (PostQuerySelector supportsQuerySelector) $ emptyCallback -- we are not interested in the result
 
     let ael = hasEventListener
     putStrLn $ show $ ael
 
-    if return ael
-       then setInnerHTML browserfeaturesElement "event listener"
-       else setInnerHTML browserfeaturesElement "no event listener"
+    let supportHtm = concat [(showSupport qs1 "querySelector"), (showSupport ael "addEventListener")]
+    let htm = "<ul>" ++ supportHtm ++ "</ul>"
+
+    browserfeaturesElement <- getElementById "browserfeatures"
+    setInnerHTML browserfeaturesElement htm
 
     let animFrame = hasRequestAnimationFrame
     putStrLn $ show $ animFrame
