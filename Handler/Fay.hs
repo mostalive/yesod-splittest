@@ -14,13 +14,10 @@ fibs = 0 : 1 : zipWith (+) fibs (drop 1 fibs)
 -- know more here)
 handleBrowserFeatures :: forall t2 s. (t2 -> Bool -> HandlerT App IO s ) -> Bool -> t2 -> HandlerT App IO s
 handleBrowserFeatures render q r = do
-  liftIO $ putStrLn ("Query selector supported: " ++ (show q))
   currentTime <- liftIO $ getCurrentTime -- we have to move the result from IO UTCTime to UTCTime, hence the arrow
   let featuresDetected = FeaturesDetected currentTime q
   _ <- runDB $ insert featuresDetected
   render r $ True
-                                   --  lift (liftIO $ putStrLn "Hello")
-                                   --  render r $ False
 
 onCommand :: CommandHandler App
 onCommand render command =
