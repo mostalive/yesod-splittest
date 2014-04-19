@@ -53,18 +53,6 @@ showSupport False _ = ""
 emptyCallback :: Bool -> Fay ()
 emptyCallback = ffi "2 + 3"
 
-registerFibonacciHandler :: Fay ()
-registerFibonacciHandler = do
-    input <- getElementById "fibindex"
-    result <- getElementById "fibresult"
-
-    onKeyUp input $ do
-        indexS <- getAttribute "value" input
-        putStrLn $ show $ indexS
-        index <- parseInt indexS
-        putStrLn $ show $ index
-        call (GetFib index) $ setInnerHTML result . show
-
 main :: Fay ()
 main = do
     let qs1 = supportsQuerySelector -- let necessary to make the call happen?
@@ -73,15 +61,11 @@ main = do
     let ael = hasEventListener
     putStrLn $ show $ ael
 
-    let supportHtm = concat [(showSupport qs1 "querySelector"), (showSupport ael "addEventListener")]
+    let animFrame = hasRequestAnimationFrame
+    let localStor = hasLocalStorage
+    let supportHtm = concat [(showSupport qs1 "querySelector"), (showSupport ael "addEventListener"), (showSupport localStor "local Storage"), (showSupport animFrame "requestAnimationFrame") ]
     let htm = "<ul>" ++ supportHtm ++ "</ul>"
 
     browserfeaturesElement <- getElementById "browserfeatures"
     setInnerHTML browserfeaturesElement htm
 
-    let animFrame = hasRequestAnimationFrame
-    putStrLn $ show $ animFrame
-    let localStor = hasLocalStorage
-    putStrLn $ show $ localStor
-
-    registerFibonacciHandler
