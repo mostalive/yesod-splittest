@@ -11,17 +11,20 @@
 *** DONE print presence of elements to consule.
    Start with a type to detect presence of various elements, 'anding' the ones we are interested in is for later. Baby steps:
 *** DONE document.QuerySelector
-*** STARTED window.addEventListener
+*** DONE window.addEventListener
 *** Array.prototype.forEach
     We may not care about this, as Fay takes care of our client side code. On the other hand, I ran across some code that did use javascript arrays.
-*** requestAnimationFrame http://www.paulirish.com/2011/requestanimationframe-for-smart-animating/
-*** local storage (just out of curiosity)
+*** DONE requestAnimationFrame http://www.paulirish.com/2011/requestanimationframe-for-smart-animating/
+*** DONE local storage (just out of curiosity)
 *** classList support
 *** OPTION support for touch events?
     Think mobile first
-** DONE Route to Post to
+** DONE Route to Post 
 ** DONE Save result in database
-   Timestamp plus detected parameters
+   DONE Timestamp plus one parameter
+   TODO all parameters ("list" of supported functions comma separated in a text field, and 
+   TODO a count column for number of supported features
+   TODO show X out of Y features supported in browser
 ** Save browser type
    look in to browser fingerprinting?
    take browser info from http headers? Hmm. it is more complicated than that. https://github.com/NielsLeenheer/WhichBrowser
