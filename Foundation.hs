@@ -57,9 +57,9 @@ instance Yesod App where
     approot = ApprootMaster $ appRoot . settings
 
     -- Store session data on the client in encrypted cookies,
-    -- default session idle timeout is 120 minutes
+    -- default session idle timeout is five days 
     makeSessionBackend _ = fmap Just $ defaultClientSessionBackend
-        (120 * 60) -- 120 minutes
+        (120 * 60) -- five days, session timeout is in minutes  In next yesod-bin it seems to go back to seconds again https://groups.google.com/forum/#!topic/yesodweb/exufYmaJFFw
         "config/client_session_key.aes"
 
     defaultLayout widget = do
