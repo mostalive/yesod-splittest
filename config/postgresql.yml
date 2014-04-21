@@ -10,15 +10,15 @@ Development:
   <<: *defaults
 
 Testing:
-  database: yesod-split-testing_test
+  database: splittest_test
   <<: *defaults
 
 Staging:
-  database: yesod-split-testing_staging
+  database: splittest_staging
   poolsize: 100
   <<: *defaults
 
 Production:
-  database: yesod-split-testing_production
+  database: splittest_production
   poolsize: 100
   <<: *defaults
