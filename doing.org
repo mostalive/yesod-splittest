@@ -19,12 +19,12 @@
 *** classList support
 *** OPTION support for touch events?
     Think mobile first
-** DONE Route to Post 
+** DONE Route to Post
 ** DONE Save result in database
-   DONE Timestamp plus one parameter
-   TODO all parameters ("list" of supported functions comma separated in a text field, and 
-   TODO a count column for number of supported features
-   TODO show X out of Y features supported in browser
+** DONE Timestamp plus one parameter
+** TODO all parameters ("list" of supported functions comma separated in a text field, and
+** TODO a count column for number of supported features
+** TODO show X out of Y features supported in browser
 ** Save browser type
    look in to browser fingerprinting?
    take browser info from http headers? Hmm. it is more complicated than that. https://github.com/NielsLeenheer/WhichBrowser
