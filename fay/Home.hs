@@ -53,8 +53,12 @@ showSupport False _ = ""
 emptyCallback :: Bool -> Fay ()
 emptyCallback = ffi "2 + 3"
 
+-- hack, all things with an instance should be able to print their type name
+displayName :: BrowserSupports -> String
+displayName = ffi "%1['instance']"
+
 showLi :: BrowserSupports -> String
-showLi bs = "<li>" ++ (show bs) ++ "</li>"
+showLi bs = "<li>" ++ (displayName bs) ++ "</li>"
 
 main :: Fay ()
 main = do
