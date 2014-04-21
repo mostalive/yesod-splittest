@@ -46,20 +46,27 @@ supportsQuerySelector = documentSupports "querySelector"
 
 -- hasClassList :: String -> Bool
 
-showSupport :: Bool -> String -> String 
-showSupport True display = "<li>" ++ display ++ "</li>" 
+showSupport :: Bool -> String -> String
+showSupport True display = "<li>" ++ display ++ "</li>"
 showSupport False _ = ""
 
 emptyCallback :: Bool -> Fay ()
 emptyCallback = ffi "2 + 3"
 
+showLi :: BrowserSupports -> String
+showLi bs = "<li>" ++ (show bs) ++ "</li>"
+
 main :: Fay ()
 main = do
     let qs1 = supportsQuerySelector -- let necessary to make the call happen?
-    call (PostQuerySelector supportsQuerySelector) $ emptyCallback -- we are not interested in the result
+    call (PostQuerySelector supportsQuerySelector) emptyCallback -- we are not interested in the result
 
+    let checks = [(AddEventListener, hasEventListener),
+                  (QuerySelector, supportsQuerySelector),
+                  (RequestAnimationFrame, hasRequestAnimationFrame),
+                  (LocalStorage, hasLocalStorage)]
+    let b2m = map showLi (allValues (map bool2Maybe checks))
     let ael = hasEventListener
-    putStrLn $ show $ ael
 
     let animFrame = hasRequestAnimationFrame
     let localStor = hasLocalStorage
@@ -68,4 +75,3 @@ main = do
 
     browserfeaturesElement <- getElementById "browserfeatures"
     setInnerHTML browserfeaturesElement htm
-
