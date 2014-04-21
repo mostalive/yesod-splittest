@@ -65,13 +65,8 @@ main = do
                   (QuerySelector, supportsQuerySelector),
                   (RequestAnimationFrame, hasRequestAnimationFrame),
                   (LocalStorage, hasLocalStorage)]
-    let b2m = map showLi (allValues (map bool2Maybe checks))
-    let ael = hasEventListener
-
-    let animFrame = hasRequestAnimationFrame
-    let localStor = hasLocalStorage
-    let supportHtm = concat [(showSupport qs1 "querySelector"), (showSupport ael "addEventListener"), (showSupport localStor "local Storage"), (showSupport animFrame "requestAnimationFrame") ]
-    let htm = "<ul>" ++ supportHtm ++ "</ul>"
+    let supportedElementsLi = concat (map showLi (allValues (map bool2Maybe checks)))
+    let htm = "<ul>" ++ supportedElementsLi ++ "</ul>"
 
     browserfeaturesElement <- getElementById "browserfeatures"
     setInnerHTML browserfeaturesElement htm
