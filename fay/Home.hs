@@ -60,6 +60,12 @@ displayName = ffi "%1['instance']"
 showLi :: BrowserSupports -> String
 showLi bs = "<li>" ++ (displayName bs) ++ "</li>"
 
+-- from Data.List, but haskell version is special - inlined.
+-- this is a naive version, inspired by the comment in Data.List documentation but it works.
+-- This could work as a quickcheck property against a smarter version
+partition :: (a -> Bool) -> [a] -> ([a],[a])
+partition p xs = (filter p xs, filter (not . p) xs)
+
 main :: Fay ()
 main = do
     let qs1 = supportsQuerySelector -- let necessary to make the call happen?
@@ -69,7 +75,9 @@ main = do
                   (QuerySelector, supportsQuerySelector),
                   (RequestAnimationFrame, hasRequestAnimationFrame),
                   (LocalStorage, hasLocalStorage)]
-    let supportedElementsLi = concat (map showLi (allValues (map bool2Maybe checks)))
+
+    let (passed, failed) = partition snd checks
+    let supportedElementsLi = concat (map (showLi . fst) passed)
     let htm = "<ul>" ++ supportedElementsLi ++ "</ul>"
 
     browserfeaturesElement <- getElementById "browserfeatures"
