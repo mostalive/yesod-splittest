@@ -78,7 +78,7 @@ main = do
 
     let (passed, failed) = partition snd checks
     let supportedElementsLi = concat (map (showLi . fst) passed)
-    let htm = "<ul>" ++ supportedElementsLi ++ "</ul>"
 
-    browserfeaturesElement <- getElementById "browserfeatures"
+    let htm = "<ul>" ++ supportedElementsLi ++ "</ul>"
+    browserfeaturesElement <- getElementById "detectedfeatures"
     setInnerHTML browserfeaturesElement htm

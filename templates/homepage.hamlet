@@ -1,6 +1,8 @@
 <h1>_{MsgBrowserFeatures}
 
 <span #browserfeatures>
+  <span #detectedfeatures>
+  <span #unsupportedfeatures>
 
 <ol>
   <li ##{aDomId}>If you had javascript enabled then you wouldn't be seeing this.
