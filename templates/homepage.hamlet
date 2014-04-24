@@ -1,7 +1,10 @@
 <h1>_{MsgBrowserFeatures}
 
 <span #browserfeatures>
+  <h2>Features detected:
+    <span #featurecount>
   <span #detectedfeatures>
+  <h2>Features missing
   <span #unsupportedfeatures>
 
 <ol>
