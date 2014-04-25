@@ -83,6 +83,17 @@ displayScore checks passed elementId = do
     let html = (show passed_count) ++ "/" ++ (show total_count)
     setInnerHTML el html
 
+data HtmlElement = Elem Name [Attribute] [Content]
+data Content = CElem HtmlElement | CText String
+data Attribute = Attr Key Value
+     deriving (Show)
+type Name = String
+type Key = String
+type Value = String
+
+
+--- (Ul (Li (A (Href "http://bla") "text")))
+
 main :: Fay ()
 main = do
     let qs1 = supportsQuerySelector -- let necessary to make the call happen?
@@ -98,3 +109,5 @@ main = do
     displayScore checks passed "featurecount"
     displayFeatures fst passed "detectedfeatures" -- still strings here. should be shared constants between Fay and Hamlet
     displayFeatures fst failed "unsupportedfeatures"
+
+    print (Attr "Href" "http://bla")
