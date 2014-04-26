@@ -2,15 +2,18 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE RebindableSyntax #-}
 
-module TextPeriment where
+module TextPeriment
+(someString
+) where
+
 
 import Fay.Text (Text, fromString)
 import Fay.Text as T
-import Prelude hiding ((++))
---import Language.Fay.Yesod (fromString)
+import Prelude (String)
+import SomeString (someString)
 
-someText :: Text
-someText = T.concat ["some", " ", "text"]
+someText :: T.Text
+someText = T.concat ["some", " ", "text", pack someString]
 
-someString :: String
-someString =  unpack "some string"
+toString :: Text -> String
+toString = unpack
