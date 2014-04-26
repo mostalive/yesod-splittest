@@ -76,6 +76,7 @@ fayFile' staticR moduleName
         -- , yfsPostProcess = readProcess "java" ["-jar", "closure-compiler.jar"]
         , yfsExternal = Just ("static", staticR)
         , yfsTypecheckDevel = True
+        , yfsPackages = ["fay-base", "fay-text"]
         }
 
 data Extra = Extra

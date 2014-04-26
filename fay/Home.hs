@@ -6,6 +6,7 @@ import Prelude
 import Fay.FFI
 import Language.Fay.Yesod
 import SharedTypes
+import TextPeriment (someString)
 
 data Element
 
