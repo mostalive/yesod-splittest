@@ -98,7 +98,7 @@ type Value = String
 main :: Fay ()
 main = do
     let qs1 = supportsQuerySelector -- let necessary to make the call happen?
-    call (PostQuerySelector supportsQuerySelector) emptyCallback -- we are not interested in the result
+
 
     let checks = [(AddEventListener, hasEventListener),
                   (QuerySelector, supportsQuerySelector),
@@ -109,6 +109,7 @@ main = do
 
     displayScore checks passed "featurecount"
     displayFeatures fst passed "detectedfeatures" -- still strings here. should be shared constants between Fay and Hamlet
-    displayFeatures fst failed "unsupportedfeatures"
+    displayFeatures fst failed "unsupportedfeatures" -- possibly intruce newtype CssId = String to make sure we don't mix css identifiers and classes
 
     print (Attr "Href" "http://bla")
+    call (PostQuerySelector (map fst passed)) emptyCallback -- we are not interested in the result

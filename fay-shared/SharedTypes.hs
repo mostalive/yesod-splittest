@@ -17,12 +17,17 @@ catMaybes ls = [x | Just x <- ls]
 #else
 --import Language.Fay.FFI
 import Data.Maybe (catMaybes)
+import Database.Persist.TH
+derivePersistField "BrowserFeaturesList"
 #endif
 
 data BrowserSupports = AddEventListener | QuerySelector | RequestAnimationFrame | LocalStorage
     deriving (Read, Show, Typeable, Data)
 
 data MBrowserSupports = Maybe BrowserSupports
+
+data BrowserFeaturesList = BrowserFeatures [BrowserSupports]
+    deriving (Read, Show, Typeable, Data)
 
 bool2Maybe :: (a, Bool) -> Maybe a
 bool2Maybe (a, True) = Just a
@@ -32,5 +37,5 @@ allValues :: [Maybe a] -> [a]
 allValues = catMaybes
 
 data Command = GetFib Int (Returns Int) |
-               PostQuerySelector Bool (Returns Bool)
+               PostQuerySelector [BrowserSupports] (Returns Bool)
     deriving (Read, Typeable, Data)
