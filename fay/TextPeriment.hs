@@ -14,6 +14,3 @@ import SomeString (someString)
 
 someText :: T.Text
 someText = T.concat ["some", " ", "text", pack someString]
-
-toString :: Text -> String
-toString = unpack
