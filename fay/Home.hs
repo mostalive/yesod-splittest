@@ -1,36 +1,36 @@
 {-# LANGUAGE NoImplicitPrelude #-}
 {-# LANGUAGE EmptyDataDecls    #-}
+{-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE RebindableSyntax #-}
+
 module Home where
 
-import Prelude
+import Prelude ((>>), Int, Bool(True, False), map, (.), filter, not, (>>=), fail, return, length,show, Show, snd, fst, print )
 import Fay.FFI
-import Language.Fay.Yesod
-import SharedTypes
+import Fay.Text as T
+import DOM
+import Language.Fay.Yesod hiding (fromString, Text)
+import SharedTypes (BrowserSupports(AddEventListener, QuerySelector, RequestAnimationFrame, LocalStorage), BrowserFeaturesList, Command(PostQuerySelector))
 import TextPeriment (someString)
 
-data Element
-
-getElementById :: String -> Fay Element
-getElementById = ffi "document.getElementById(%1)"
-
-getAttribute :: String -> Element -> Fay String
+getAttribute :: Text -> Element -> Fay Text
 getAttribute = ffi "%2[%1]"
 
-setInnerHTML :: Element -> String -> Fay ()
+setInnerHTML :: Element -> Text -> Fay ()
 setInnerHTML = ffi "%1.innerHTML=%2"
 
 onKeyUp :: Element -> Fay () -> Fay ()
 onKeyUp = ffi "%1.onkeyup=%2"
 
-alert :: String -> Fay ()
+alert :: Text -> Fay ()
 alert = ffi "window.alert(%1)"
 
-parseInt :: String -> Fay Int
+parseInt :: Text -> Fay Int
 parseInt = ffi "window.parseInt(%1, 10)"
 
 -- useful documentation https://github.com/faylang/fay/wiki/Foreign-function-interface
 
-documentSupports :: String -> Bool
+documentSupports :: Text -> Bool
 documentSupports = ffi "!(typeof document[%1] == \"undefined\")"
 
 hasEventListener :: Bool
@@ -47,23 +47,29 @@ supportsQuerySelector = documentSupports "querySelector"
 
 -- hasClassList :: String -> Bool
 
-showSupport :: Bool -> String -> String
-showSupport True display = "<li>" ++ display ++ "</li>"
+showSupport :: Bool -> Text -> Text
+showSupport True display = T.concat ["<li>", display,  "</li>"]
 showSupport False _ = ""
 
 emptyCallback :: Bool -> Fay ()
 emptyCallback = ffi "2 + 3"
 
+log :: Text -> Fay()
+log = ffi "console.log(%1)"
+
+showText :: Show a => a -> Text
+showText = pack . show
+
 -- hack, all things with an instance should be able to print their type name
-displayName :: BrowserSupports -> String
+displayName :: BrowserSupports -> Text
 displayName = ffi "%1['instance']"
 
-showLi :: BrowserSupports -> String
-showLi bs = "<li>" ++ (displayName bs) ++ "</li>"
+showLi :: BrowserSupports -> Text
+showLi bs = T.concat [ "<li>", (displayName bs), "</li>"]
 
 
 listOf _ [] = "<p>No items in this category</p>"
-listOf fn lst = "<ul>" ++ concat (map (showLi . fn) lst) ++ "</ul>"
+listOf fn lst = T.concat ["<ul>" , (T.concat (Prelude.map (showLi . fn) lst)) , "</ul>"]
 
 
 -- from Data.List, but haskell version is special - inlined.
@@ -78,19 +84,19 @@ displayFeatures fn lst elementId =  do
     setInnerHTML el htm
 
 displayScore checks passed elementId = do
-    let total_count = length checks
-    let passed_count = length passed
+    let total_count = Prelude.length checks
+    let passed_count = Prelude.length passed
     el <- getElementById elementId
-    let html = (show passed_count) ++ "/" ++ (show total_count)
+    let html = T.concat [(showText passed_count), "/", (showText total_count)]
     setInnerHTML el html
 
 data HtmlElement = Elem Name [Attribute] [Content]
-data Content = CElem HtmlElement | CText String
+data Content = CElem HtmlElement | CText Text
 data Attribute = Attr Key Value
-     deriving (Show)
-type Name = String
-type Key = String
-type Value = String
+--     deriving (Show) -- No Show for Text
+type Name = Text
+type Key = Text
+type Value = Text
 
 
 --- (Ul (Li (A (Href "http://bla") "text")))
@@ -111,5 +117,5 @@ main = do
     displayFeatures fst passed "detectedfeatures" -- still strings here. should be shared constants between Fay and Hamlet
     displayFeatures fst failed "unsupportedfeatures" -- possibly intruce newtype CssId = String to make sure we don't mix css identifiers and classes
 
-    print (Attr "Href" "http://bla")
-    call (PostQuerySelector (map fst passed)) emptyCallback -- we are not interested in the result
+    --log (showText (Attr "Href" "http://bla"))
+    call (PostQuerySelector (Prelude.map fst passed)) emptyCallback -- we are not interested in the result
