@@ -13,20 +13,8 @@ import Language.Fay.Yesod hiding (fromString, Text)
 import SharedTypes (BrowserSupports(AddEventListener, QuerySelector, RequestAnimationFrame, LocalStorage), BrowserFeaturesList, Command(PostQuerySelector))
 import TextPeriment (someString)
 
-getAttribute :: Text -> Element -> Fay Text
-getAttribute = ffi "%2[%1]"
-
 setInnerHTML :: Element -> Text -> Fay ()
 setInnerHTML = ffi "%1.innerHTML=%2"
-
-onKeyUp :: Element -> Fay () -> Fay ()
-onKeyUp = ffi "%1.onkeyup=%2"
-
-alert :: Text -> Fay ()
-alert = ffi "window.alert(%1)"
-
-parseInt :: Text -> Fay Int
-parseInt = ffi "window.parseInt(%1, 10)"
 
 -- useful documentation https://github.com/faylang/fay/wiki/Foreign-function-interface
 
