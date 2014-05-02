@@ -11,7 +11,6 @@ import Fay.Text as T
 import DOM
 import Language.Fay.Yesod hiding (fromString, Text)
 import SharedTypes (BrowserSupports(AddEventListener, QuerySelector, RequestAnimationFrame, LocalStorage), BrowserFeaturesList, Command(PostQuerySelector))
-import TextPeriment (someString)
 
 setInnerHTML :: Element -> Text -> Fay ()
 setInnerHTML = ffi "%1.innerHTML=%2"
