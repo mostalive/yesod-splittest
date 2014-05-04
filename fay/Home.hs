@@ -10,7 +10,7 @@ import Fay.FFI
 import Fay.Text as T
 import DOM
 import Language.Fay.Yesod hiding (fromString, Text)
-import SharedTypes (BrowserSupports(AddEventListener, QuerySelector, RequestAnimationFrame, LocalStorage), BrowserFeaturesList, Command(PostQuerySelector))
+import SharedTypes
 
 setInnerHTML :: Element -> Text -> Fay ()
 setInnerHTML = ffi "%1.innerHTML=%2"
@@ -70,7 +70,7 @@ displayFeatures fn lst elementId =  do
     el <- getElementById elementId
     setInnerHTML el htm
 
-displayScore checks passed elementId = do
+displayScore checks passed (CssID elementId) = do
     let total_count = Prelude.length checks
     let passed_count = Prelude.length passed
     el <- getElementById elementId
@@ -100,7 +100,7 @@ main = do
 
     let (passed, failed) = partition snd checks
 
-    displayScore checks passed "featurecount"
+    displayScore checks passed featureCountID
     displayFeatures fst passed "detectedfeatures" -- still strings here. should be shared constants between Fay and Hamlet
     displayFeatures fst failed "unsupportedfeatures" -- possibly intruce newtype CssId = String to make sure we don't mix css identifiers and classes
 
