@@ -2,7 +2,7 @@
 
 <span #browserfeatures>
   <h2>Features detected:
-    <span #featurecount>
+    <span ##{featureCountID}>
   <span #detectedfeatures>
   <h2>Features missing
   <span #unsupportedfeatures>

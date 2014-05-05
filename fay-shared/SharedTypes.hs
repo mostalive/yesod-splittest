@@ -12,7 +12,12 @@ import Fay.Text as T
 --import Language.Fay.FFI
 import Database.Persist.TH
 import Data.Text as T
+import Text.Blaze
 derivePersistField "BrowserFeaturesList"
+
+instance ToMarkup CssID where
+  toMarkup (CssID t) = toMarkup t
+
 #endif
 
 data BrowserSupports = AddEventListener | QuerySelector | RequestAnimationFrame | LocalStorage
