@@ -35,3 +35,9 @@ data CssID = CssID T.Text
 
 featureCountID :: CssID
 featureCountID = CssID (T.pack "featurecount")
+
+detectedFeaturesID :: CssID
+detectedFeaturesID = CssID (T.pack "detectedFeatures")
+
+unsupportedFeaturesID :: CssID
+unsupportedFeaturesID = CssID (T.pack "supportedFeatures")

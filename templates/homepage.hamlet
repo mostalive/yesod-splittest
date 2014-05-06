@@ -3,9 +3,9 @@
 <span #browserfeatures>
   <h2>Features detected:
     <span ##{featureCountID}>
-  <span #detectedfeatures>
+  <span ##{detectedFeaturesID}>
   <h2>Features missing
-  <span #unsupportedfeatures>
+  <span ##{unsupportedFeaturesID}>
 
 <ol>
   <li ##{aDomId}>If you had javascript enabled then you wouldn't be seeing this.

@@ -65,7 +65,7 @@ listOf fn lst = T.concat ["<ul>" , (T.concat (Prelude.map (showLi . fn) lst)) , 
 partition :: (a -> Bool) -> [a] -> ([a],[a])
 partition p xs = (filter p xs, filter (not . p) xs)
 
-displayFeatures fn lst elementId =  do
+displayFeatures fn lst (CssID elementId) =  do
     let htm = listOf fn lst
     el <- getElementById elementId
     setInnerHTML el htm
@@ -101,8 +101,8 @@ main = do
     let (passed, failed) = partition snd checks
 
     displayScore checks passed featureCountID
-    displayFeatures fst passed "detectedfeatures" -- still strings here. should be shared constants between Fay and Hamlet
-    displayFeatures fst failed "unsupportedfeatures" -- possibly intruce newtype CssId = String to make sure we don't mix css identifiers and classes
+    displayFeatures fst passed detectedFeaturesID -- still strings here. should be shared constants between Fay and Hamlet
+    displayFeatures fst failed unsupportedFeaturesID -- possibly intruce newtype CssId = String to make sure we don't mix css identifiers and classes
 
     --log (showText (Attr "Href" "http://bla"))
     call (PostQuerySelector (Prelude.map fst passed)) emptyCallback -- we are not interested in the result
