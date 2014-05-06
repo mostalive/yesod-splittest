@@ -11,6 +11,7 @@ import Fay.Text as T
 import DOM
 import Language.Fay.Yesod hiding (fromString, Text)
 import SharedTypes
+import SharedIDs
 
 setInnerHTML :: Element -> Text -> Fay ()
 setInnerHTML = ffi "%1.innerHTML=%2"
