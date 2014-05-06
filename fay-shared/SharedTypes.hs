@@ -1,5 +1,6 @@
 {-# LANGUAGE NoImplicitPrelude #-}
 {-# LANGUAGE DeriveDataTypeable #-}
+{-# LANGUAGE OverloadedStrings #-}
 module SharedTypes where
 
 import Prelude
@@ -34,10 +35,10 @@ data Command = PostQuerySelector [BrowserSupports] (Returns Bool)
 data CssID = CssID T.Text
 
 featureCountID :: CssID
-featureCountID = CssID (T.pack "featurecount")
+featureCountID = CssID "featurecount"
 
 detectedFeaturesID :: CssID
-detectedFeaturesID = CssID (T.pack "detectedFeatures")
+detectedFeaturesID = CssID "detectedFeatures"
 
 unsupportedFeaturesID :: CssID
-unsupportedFeaturesID = CssID (T.pack "supportedFeatures")
+unsupportedFeaturesID = CssID "supportedFeatures"
