@@ -41,6 +41,9 @@ service postgresql restart
 ```
 
 Create the role and database through postgres. If you need more, read [how to use roles and manage grant permissions in postgres](https://www.digitalocean.com/community/articles/how-to-use-roles-and-manage-grant-permissions-in-postgresql-on-a-vps--2)
+Bash scripts for creating development and test databases can be found in
+/devenv/scripts , so you don't have to type the instructions below time
+and again.
 
 '''bash
 > sudo -u postgres psql
