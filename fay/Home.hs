@@ -1,17 +1,20 @@
 {-# LANGUAGE NoImplicitPrelude #-}
-{-# LANGUAGE EmptyDataDecls    #-}
 {-# LANGUAGE OverloadedStrings #-}
-{-# LANGUAGE RebindableSyntax #-}
+{-# LANGUAGE RebindableSyntax  #-}
 
 module Home where
 
-import Prelude ((>>), Int, Bool(True, False), map, (.), filter, not, (>>=), fail, return, length,show, Show, snd, fst, print )
-import Fay.FFI
-import Fay.Text as T
-import DOM
-import Language.Fay.Yesod hiding (fromString, Text)
-import SharedTypes
-import SharedIDs
+import           DOM
+import           Fay.FFI
+import           Fay.Text           as T
+import           Language.Fay.Yesod hiding (Text, fromString)
+import           Prelude            (Bool (True, False), Int, Show, fail,
+                                     filter, foldl, fst, length, map, not,
+                                     print, return, show, snd, ($), (.), (>>),
+                                     (>>=))
+import           SharedIDs
+import           SharedTypes
+import           Tags
 
 setInnerHTML :: Element -> Text -> Fay ()
 setInnerHTML = ffi "%1.innerHTML=%2"
@@ -35,9 +38,9 @@ supportsQuerySelector = documentSupports "querySelector"
 
 -- hasClassList :: String -> Bool
 
-showSupport :: Bool -> Text -> Text
-showSupport True display = T.concat ["<li>", display,  "</li>"]
-showSupport False _ = ""
+showSupport :: Bool -> Text -> Tag
+showSupport True display = li (txt display)
+showSupport False _      = txt ""
 
 emptyCallback :: Bool -> Fay ()
 emptyCallback = ffi "2 + 3"
@@ -52,13 +55,11 @@ showText = pack . show
 displayName :: BrowserSupports -> Text
 displayName = ffi "%1['instance']"
 
-showLi :: BrowserSupports -> Text
-showLi bs = T.concat [ "<li>", (displayName bs), "</li>"]
+showLi :: BrowserSupports -> Tag
+showLi bs = li $ txt (displayName bs)
 
-
-listOf _ [] = "<p>No items in this category</p>"
-listOf fn lst = T.concat ["<ul>" , (T.concat (Prelude.map (showLi . fn) lst)) , "</ul>"]
-
+listOf _  []  = p $ txt "No items in this category"
+listOf fn lst = ul0 ++> (Prelude.map (showLi . fn) lst)
 
 -- from Data.List, but haskell version is special - inlined.
 -- this is a naive version, inspired by the comment in Data.List documentation but it works.
@@ -69,7 +70,7 @@ partition p xs = (filter p xs, filter (not . p) xs)
 displayFeatures fn lst (CssID elementId) =  do
     let htm = listOf fn lst
     el <- getElementById elementId
-    setInnerHTML el htm
+    setInnerHTML el (render htm)
 
 displayScore checks passed (CssID elementId) = do
     let total_count = Prelude.length checks
