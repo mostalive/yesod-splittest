@@ -4,7 +4,6 @@
 
 module Home where
 
-import           DOM
 import           Fay.FFI
 import           Fay.Text           as T
 import           Language.Fay.Yesod hiding (Text, fromString)
@@ -15,9 +14,6 @@ import           Prelude            (Bool (True, False), Int, Show, fail,
 import           SharedIDs
 import           SharedTypes
 import           Tags
-
-setInnerHTML :: Element -> Text -> Fay ()
-setInnerHTML = ffi "%1.innerHTML=%2"
 
 -- useful documentation https://github.com/faylang/fay/wiki/Foreign-function-interface
 
@@ -33,6 +29,12 @@ hasRequestAnimationFrame = ffi "(typeof window['requestAnimationFrame'] == \"fun
 hasLocalStorage :: Bool
 hasLocalStorage = ffi "(typeof window['localStorage'] == \"object\")"
 
+hasShadowDOM :: Bool
+hasShadowDOM = ffi "typeof document['documentElement']['createShadowRoot'] == \"function\""
+
+hasWebSockets :: Bool
+hasWebSockets = ffi "typeof WebSocket == \"object\""
+
 supportsQuerySelector :: Bool
 supportsQuerySelector = documentSupports "querySelector"
 
@@ -45,7 +47,7 @@ showSupport False _      = txt ""
 emptyCallback :: Bool -> Fay ()
 emptyCallback = ffi "2 + 3"
 
-log :: Text -> Fay()
+log :: Text -> Fay ()
 log = ffi "console.log(%1)"
 
 showText :: Show a => a -> Text
@@ -59,7 +61,7 @@ showLi :: BrowserSupports -> Tag
 showLi bs = li $ txt (displayName bs)
 
 listOf _  []  = p $ txt "No items in this category"
-listOf fn lst = ul0 ++> (Prelude.map (showLi . fn) lst)
+listOf fn lst = ul0 ++> Prelude.map (showLi . fn) lst
 
 -- from Data.List, but haskell version is special - inlined.
 -- this is a naive version, inspired by the comment in Data.List documentation but it works.
@@ -67,17 +69,14 @@ listOf fn lst = ul0 ++> (Prelude.map (showLi . fn) lst)
 partition :: (a -> Bool) -> [a] -> ([a],[a])
 partition p xs = (filter p xs, filter (not . p) xs)
 
-displayFeatures fn lst (CssID elementId) =  do
-    let htm = listOf fn lst
-    el <- getElementById elementId
-    setInnerHTML el (render htm)
+displayFeatures fn lst (CssID elementId) =
+  html (listOf fn lst) elementId
 
 displayScore checks passed (CssID elementId) = do
     let total_count = Prelude.length checks
     let passed_count = Prelude.length passed
-    el <- getElementById elementId
-    let html = T.concat [(showText passed_count), "/", (showText total_count)]
-    setInnerHTML el html
+    let htm = T.concat [showText passed_count, "/", showText total_count]
+    html (txt htm) elementId
 
 data HtmlElement = Elem Name [Attribute] [Content]
 data Content = CElem HtmlElement | CText Text
@@ -87,7 +86,6 @@ type Name = Text
 type Key = Text
 type Value = Text
 
-
 --- (Ul (Li (A (Href "http://bla") "text")))
 
 main :: Fay ()
@@ -95,10 +93,12 @@ main = do
     let qs1 = supportsQuerySelector -- let necessary to make the call happen?
 
 
-    let checks = [(AddEventListener, hasEventListener),
-                  (QuerySelector, supportsQuerySelector),
+    let checks = [(AddEventListener,      hasEventListener),
+                  (QuerySelector,         supportsQuerySelector),
                   (RequestAnimationFrame, hasRequestAnimationFrame),
-                  (LocalStorage, hasLocalStorage)]
+                  (HasShadowDOM,          hasShadowDOM),
+                  (HasWebSockets,         hasWebSockets),
+                  (LocalStorage,          hasLocalStorage)]
 
     let (passed, failed) = partition snd checks
 

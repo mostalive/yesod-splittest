@@ -13,7 +13,12 @@ import Database.Persist.TH
 derivePersistField "BrowserFeaturesList"
 #endif
 
-data BrowserSupports = AddEventListener | QuerySelector | RequestAnimationFrame | LocalStorage
+data BrowserSupports = AddEventListener
+                     | QuerySelector
+                     | RequestAnimationFrame
+                     | LocalStorage
+                     | HasShadowDOM
+                     | HasWebSockets
     deriving (Read, Show, Typeable, Data)
 
 data MBrowserSupports = Maybe BrowserSupports

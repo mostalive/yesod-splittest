@@ -1,12 +1,16 @@
+{-# LANGUAGE EmptyDataDecls    #-}
 {-# LANGUAGE NoImplicitPrelude #-}
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE RebindableSyntax  #-}
 
 module Tags where
 
+import           DOM
 import           Fay.FFI
 import           Fay.Text (Text, concat, concatMap, fromString)
-import           Prelude  (foldl, map, ($), (++))
+import           Prelude  (fail, foldl, map, return, ($), (++), (.), (>>=))
+
+data Node
 
 data Tag = Tag Text [Tag]  -- ^A named tag
          | Txt Text        -- ^Text content
@@ -14,6 +18,19 @@ data Tag = Tag Text [Tag]  -- ^A named tag
 render :: Tag  ->  Text
 render (Tag t cs) = concat [ "<", t, ">", concat $ map render cs, "</", t, ">" ]
 render (Txt t)    = t
+
+setInnerHTML :: Node -> Text -> Fay ()
+setInnerHTML = ffi "%1.innerHTML=%2"
+
+byId :: Text -> Fay Node
+byId = ffi "document['getElementById'](%1)"
+
+html :: Tag
+     -> Text  -- ^Element Id to inject tag int
+     -> Fay ()
+html t el = do
+  element <- byId el
+  setInnerHTML element (render t)
 
 (+>) ::  Tag ->  Tag -> Tag
 (Tag t cs) +> c        = Tag t (cs ++ [c])
@@ -27,7 +44,7 @@ li :: Tag -> Tag
 li t = Tag "li" [t]
 
 ul :: Tag -> Tag
-ul t = Tag "ul" [t]
+ul = Tag "ul" . (:[])
 
 ul0 :: Tag
 ul0 = Tag "ul" []
