@@ -45,19 +45,19 @@ Bash scripts for creating development and test databases can be found in
 /devenv/scripts , so you don't have to type the instructions below time
 and again.
 
-'''bash
+```bash
 > sudo -u postgres psql
 postgres# create role splittest password 'splittest' with login;
 postgres# create database splittest owner splittest;
-'''
+```
 
 You can exit the psql shell by pressing ctrl-D.
 
 This should give the user splittest access to the database. Test it with:
 
-'''bash
+```bash
 
-'''
+```
 
 We alsoo can grant access to the database
 through the postgresql prompt and re-set the password through the prompt
@@ -66,11 +66,11 @@ escaping all the time.
 
 In case of doubt, use the help command, e.g.
 
-'''bash
+```bash
   \help create
   ... command syntax
   \help create database
-'''
+```
 
 ```
 postgres=# grant all privileges on database splittest to splittest;
