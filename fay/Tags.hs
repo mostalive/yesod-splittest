@@ -7,8 +7,9 @@ module Tags where
 
 import           DOM
 import           Fay.FFI
-import           Fay.Text (Text, concat, concatMap, fromString)
-import           Prelude  (fail, foldl, map, return, ($), (++), (.), (>>=))
+import           Fay.Text  (Text, concat, concatMap, fromString)
+import           Prelude   (fail, foldl, map, return, ($), (++), (.), (>>=))
+import           SharedIDs
 
 data Node
 
@@ -22,15 +23,17 @@ render (Txt t)    = t
 setInnerHTML :: Node -> Text -> Fay ()
 setInnerHTML = ffi "%1.innerHTML=%2"
 
-byId :: Text -> Fay Node
-byId = ffi "document['getElementById'](%1)"
+byId' :: Text -> Node
+byId' = ffi "document['getElementById'](%1)"
+
+byId :: CssID -> Node
+byId (CssID elementId) = byId' elementId
 
 html :: Tag
-     -> Text  -- ^Element Id to inject tag int
+     -> Node  -- ^Element Id to inject tag int
      -> Fay ()
-html t el = do
-  element <- byId el
-  setInnerHTML element (render t)
+html t el =
+  setInnerHTML el (render t)
 
 (+>) ::  Tag ->  Tag -> Tag
 (Tag t cs) +> c        = Tag t (cs ++ [c])
