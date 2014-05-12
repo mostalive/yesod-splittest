@@ -28,3 +28,27 @@
 ** Save browser type
    look in to browser fingerprinting?
    take browser info from http headers? Hmm. it is more complicated than that. https://github.com/NielsLeenheer/WhichBrowser
+* Meta: test framework
+ - Something simple that can be run in a browser (using wrapped HTML) and through node interpreter
+ - Mimic what HUnit provides: A Test data type that can be built from basic assertions, or from a list of tests
+ - A Test executor objects that goes through a tree of tests, evaluates each assertions and outputs a TestResult
+ - Provide an HTML renderer for TestResult objects
+** DONE Basic test framework that works using an HTML page
+** TODO basic test framework that works with node.js
+* Meta: composable GUI components
+ - Having a look at [[https://github.com/swannodette/om][Om]] which is a Clojurescript wrapper around [[http://facebook.github.io/react][react]]
+ - React principles:
+   - Wrap DOM into custom tree, main method of React instances is render which returns a pseudo-DOM tree to be rendered by React
+     engine. In react, there is a custom language (JSX) for expressing "templates" in a HTML-like form, this is a pre-processor
+     that outputs custom objects
+   - Register callbacks invoked using requestAnimationFrame (or setTimeout), each callback corresponding to one "root" component
+     to render
+   - When rendering, computest a pseudo-edit distance between current DOM and requested DOM to minimize what's to be
+     recomputed. Then generates HTML/DOM to inject into the DOM tree representing current state of application
+   - Mostly declarative: components are built using React class, implementing lifecycle methods
+ - Om adds clojure syntax, wrapping React DOM objects into clojure fns. It also adds *cursors* which are objects containing the
+   state of the application, mutated using specific functions. Components are functions that creates instances of IRender which
+   are then used to create the actual React object
+ - Data-flow always goes in one direction, data coming from user input is handled by event handlers, events are wrapped by React
+   to unify across browsers
+ - React is huge as far as JS goes: As of 0.10 react.js is 4258 lines long...

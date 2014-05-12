@@ -69,10 +69,10 @@ listOf fn lst = ul0 ++> Prelude.map (showLi . fn) lst
 partition :: (a -> Bool) -> [a] -> ([a],[a])
 partition p xs = (filter p xs, filter (not . p) xs)
 
-displayFeatures fn lst elementId =
+displayFeatures fn lst (CssID elementId) =
   html (listOf fn lst) (byId elementId)
 
-displayScore checks passed elementId = do
+displayScore checks passed (CssID elementId) = do
     let total_count = Prelude.length checks
     let passed_count = Prelude.length passed
     let htm = T.concat [showText passed_count, "/", showText total_count]

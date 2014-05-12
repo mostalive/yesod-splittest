@@ -6,12 +6,12 @@
 module Tags where
 
 import           DOM
-import           Fay.FFI
-import           Fay.Text  (Text, concat, concatMap, fromString)
-import           Prelude   (fail, foldl, map, return, ($), (++), (.), (>>=))
-import           SharedIDs
+import           Fay.Text (Text, concat, concatMap, fromString)
+import           FFI
+import           Prelude  (fail, foldl, map, return, ($), (++), (.), (>>=))
 
 data Node
+data Event
 
 data Tag = Tag Text [Tag]  -- ^A named tag
          | Txt Text        -- ^Text content
@@ -23,11 +23,17 @@ render (Txt t)    = t
 setInnerHTML :: Node -> Text -> Fay ()
 setInnerHTML = ffi "%1.innerHTML=%2"
 
-byId' :: Text -> Node
-byId' = ffi "document['getElementById'](%1)"
+byId :: Text -> Node
+byId = ffi "document['getElementById'](%1)"
 
-byId :: CssID -> Node
-byId (CssID elementId) = byId' elementId
+body :: Node
+body = ffi "document.body"
+
+-- |Delay function until DOM is ready
+-- Uses `DOMContentLoaded` event so won't work on older browsers...
+-- see http://stackoverflow.com/questions/799981/document-ready-equivalent-without-jquery
+ready :: Fay ()  -> Fay ()
+ready = ffi "document.addEventListener('DOMContentLoaded', %1)"
 
 html :: Tag
      -> Node  -- ^Element Id to inject tag int
