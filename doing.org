@@ -6,7 +6,7 @@
   "Another factor that makes developing for responsive design hard is the rate with which mobile users update their phones and browsers" http://responsivenews.co.uk/post/18948466399/cutting-the-mustard
   On the qwan contact form, I got a report from a customer that he could not see the contact form, but I had no way to figure out what he was seeing. Storing
 
-** Cutting the mustoard test client side in FAY
+** Cutting the mustard test client side in FAY
    Inspired by the above and http://gomakethings.com/ditching-jquery-for-vanilla-js/ .*
 *** DONE print presence of elements to consule.
    Start with a type to detect presence of various elements, 'anding' the ones we are interested in is for later. Baby steps:
@@ -22,9 +22,9 @@
 ** DONE Route to Post
 ** DONE Save result in database
 ** DONE Timestamp plus one parameter
-** TODO all parameters ("list" of supported functions comma separated in a text field, and
+** DONE all parameters ("list" of supported functions comma separated in a text field, and
 ** TODO a count column for number of supported features
-** TODO show X out of Y features supported in browser
+** DONE show X out of Y features supported in browser
 ** Save browser type
    look in to browser fingerprinting?
    take browser info from http headers? Hmm. it is more complicated than that. https://github.com/NielsLeenheer/WhichBrowser
@@ -43,7 +43,7 @@
      that outputs custom objects
    - Register callbacks invoked using requestAnimationFrame (or setTimeout), each callback corresponding to one "root" component
      to render
-   - When rendering, computest a pseudo-edit distance between current DOM and requested DOM to minimize what's to be
+   - When rendering, computes a pseudo-edit distance between current DOM and requested DOM to minimize what's to be
      recomputed. Then generates HTML/DOM to inject into the DOM tree representing current state of application
    - Mostly declarative: components are built using React class, implementing lifecycle methods
  - Om adds clojure syntax, wrapping React DOM objects into clojure fns. It also adds *cursors* which are objects containing the
