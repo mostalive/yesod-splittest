@@ -33,7 +33,7 @@ hasShadowDOM :: Bool
 hasShadowDOM = ffi "typeof document['documentElement']['createShadowRoot'] == \"function\""
 
 hasWebSockets :: Bool
-hasWebSockets = ffi "typeof WebSocket == \"object\""
+hasWebSockets = ffi "\"WebSocket\" in window"
 
 supportsQuerySelector :: Bool
 supportsQuerySelector = documentSupports "querySelector"

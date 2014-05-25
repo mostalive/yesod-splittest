@@ -34,6 +34,11 @@
  - A Test executor objects that goes through a tree of tests, evaluates each assertions and outputs a TestResult
  - Provide an HTML renderer for TestResult objects
 ** DONE Basic test framework that works using an HTML page
+ - implemented poor man's ready() function that ensures runTestHTML only starts when node is built, uses standard event
+   disregarding compatibility with IE8-
+ - this needs to be moved to DOM package...
+ - had a hard time debugging my code as nothing appeared, logs where uninformative. Initially thought code was too lazy, but
+   things were caused by the fact DOM was unavailable hence msg could not be displayed, and of course not evaluated
 ** TODO basic test framework that works with node.js
 * Meta: composable GUI components
  - Having a look at [[https://github.com/swannodette/om][Om]] which is a Clojurescript wrapper around [[http://facebook.github.io/react][react]]

@@ -8,7 +8,7 @@ module Tags where
 import           DOM
 import           Fay.Text (Text, concat, concatMap, fromString)
 import           FFI
-import           Prelude  (fail, foldl, map, return, ($), (++), (.), (>>=))
+import           Prelude  (fail, foldr, map, return, ($), (++), (.), (>>=))
 
 data Node
 data Event
@@ -47,7 +47,7 @@ html t el =
 (Txt t   ) +> c        = Tag "p" [Txt t, c]
 
 (++>) :: Tag -> [Tag] ->  Tag
-f ++> tags = foldl (+>) f  tags
+f ++> tags = foldr (+>) f  tags
 
 li :: Tag -> Tag
 li t = Tag "li" [t]
