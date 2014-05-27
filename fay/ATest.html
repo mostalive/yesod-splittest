@@ -1,0 +1,29 @@
+<!doctype html>
+<html>
+  <head>
+    <meta http-equiv='Content-Type' content='text/html; charset=utf-8'>
+
+<style>
+.test-success:before {
+content: "PASS ";
+color: white;
+background-color: lightgreen;
+width: 10%;
+margin: .1em;
+}
+
+.test-failure:before {
+content: "FAIL ";
+color: white;
+background-color:red;
+margin: .1em;
+width: 10%;
+}
+
+</style>
+  </head>
+  <body>
+    <div id="test"/>
+    <script type="text/javascript" src="ATest.js"></script>
+  </body>
+</html>

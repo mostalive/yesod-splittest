@@ -8,17 +8,23 @@ module Tags where
 import           DOM
 import           Fay.Text (Text, concat, concatMap, fromString)
 import           FFI
-import           Prelude  (fail, foldr, map, return, ($), (++), (.), (>>=))
+import           Prelude  (fail, foldl, map, return, ($), (++), (.), (>>=))
 
 data Node
 data Event
 
-data Tag = Tag Text [Tag]  -- ^A named tag
+data Tag = Tag [Attribute] Text [Tag]  -- ^A named tag
          | Txt Text        -- ^Text content
 
+data Attribute = Attribute Text Text
+
 render :: Tag  ->  Text
-render (Tag t cs) = concat [ "<", t, ">", concat $ map render cs, "</", t, ">" ]
+render (Tag [] t cs) = concat [ "<", t, ">", concat $ map render cs, "</", t, ">" ]
+render (Tag at t cs) = concat [ "<", t, " ", concat $ map renderAt at,">",  concat $ map render cs, "</", t, ">" ]
 render (Txt t)    = t
+
+renderAt :: Attribute -> Text
+renderAt (Attribute k v) = concat [k , "=\"", v , "\"" ]
 
 setInnerHTML :: Node -> Text -> Fay ()
 setInnerHTML = ffi "%1.innerHTML=%2"
@@ -42,24 +48,41 @@ html t el =
   setInnerHTML el (render t)
 
 (+>) ::  Tag ->  Tag -> Tag
-(Tag t cs) +> c        = Tag t (cs ++ [c])
+(Tag a t cs) +> c        = Tag a t (cs ++ [c])
 (Txt t   ) +> (Txt t') = Txt (concat [t,t'])
-(Txt t   ) +> c        = Tag "p" [Txt t, c]
+(Txt t   ) +> c        = Tag [] "p" [Txt t, c]
+
+(!>) :: Tag -> Attribute -> Tag
+(Tag as t cs) !> a       = Tag (a:as) t cs
+t             !> _       = t
+
 
 (++>) :: Tag -> [Tag] ->  Tag
-f ++> tags = foldr (+>) f  tags
+f ++> tags = foldl (+>) f tags
 
 li :: Tag -> Tag
-li t = Tag "li" [t]
+li t = Tag [] "li" [t]
 
 ul :: Tag -> Tag
-ul = Tag "ul" . (:[])
+ul = Tag [] "ul" . (:[])
+
+ol :: [ Tag ] -> Tag
+ol tags = Tag [] "ol" tags
+
+ol0 :: Tag
+ol0 = Tag [] "ol" []
 
 ul0 :: Tag
-ul0 = Tag "ul" []
+ul0 = Tag [] "ul" []
 
 p :: Tag -> Tag
-p t = Tag "p" [t]
+p t = Tag [] "p" [t]
 
 txt :: Text -> Tag
 txt = Txt
+
+at :: Text -> Text ->  Attribute
+at = Attribute
+
+klass :: Text -> Attribute
+klass c = Attribute "class" c
