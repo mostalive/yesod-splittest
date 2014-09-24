@@ -1,7 +1,7 @@
 # Dockerfile for setting up a working haskell development environment
 #
 
-FROM stackbrew/ubuntu:saucy
+FROM ubuntu:14.04 
 MAINTAINER arnaud.oqube@gmail.com
 
 RUN apt-get update
