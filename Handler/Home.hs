@@ -15,8 +15,5 @@ getHomeR :: Handler Html
 getHomeR = do
     defaultLayout $ do
         aDomId <- newIdent
-        setTitle "Server side browser feature detection"
-        $(widgetFile "homepage")
-        $(fayFile' (ConE 'StaticR) "Tags")
-        $(fayFile' (ConE 'StaticR) "Home")
+        setTitle "Blank web page, deployed"
 
