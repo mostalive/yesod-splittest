@@ -47,5 +47,7 @@ RUN rm -fr cabal-install-1.20.0.2*
 RUN [ ! -f /.bashrc ] && echo export PATH=/.cabal/bin:$PATH > /.bashrc
 ADD config /.cabal/config
 RUN /.cabal/bin/cabal update
+RUN /.cabal/bin/cabal install cabal-install
+RUN /.cabal/bin/cabal update
 RUN /.cabal/bin/cabal install alex happy yesod-bin
 CMD ["/bin/bash"]
