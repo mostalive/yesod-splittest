@@ -49,17 +49,5 @@ ADD config /.cabal/config
 RUN /.cabal/bin/cabal update
 RUN /.cabal/bin/cabal install cabal-install
 RUN /.cabal/bin/cabal update
-RUN /.cabal/bin/cabal install hdevtools 
-RUN /.cabal/bin/cabal install happy
-RUN ln -s /.cabal/bin/happy /usr/bin/happy
-RUN /.cabal/bin/cabal install hlint
-RUN ln -s /.cabal/bin/cabal /usr/bin/cabal
-
-# Set the locale, otherwise we get invalid byte sequence errors, e.g in ghc-mod
-RUN locale-gen en_US.UTF-8
-ENV LANG en_US.UTF-8
-ENV LANGUAGE en_US:en
-ENV LC_ALL en_US.UTF-8
-RUN cabal install ghc-mod 
-ADD .emacs .emacs
+RUN /.cabal/bin/cabal install alex happy yesod-bin
 CMD ["/bin/bash"]

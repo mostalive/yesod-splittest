@@ -9,11 +9,12 @@
 
 
 --remote-repo: stackage:http://www.stackage.org/stackage/b6526c94eac698f31cd878ba5eabc3870f7129f0
-remote-repo: hackage.haskell.org:http://hackage.haskell.org/packages/archive
-remote-repo-cache: /home/willem/.cabal/packages
+remote-repo: stackage:http://www.stackage.org/stackage/25385a5fcddc4ab5ea7f19bf45aab874c145be08
+--remote-repo: hackage.haskell.org:http://hackage.haskell.org/packages/archive
+remote-repo-cache: /.cabal/packages
 -- local-repo:
 -- logs-dir:
-world-file: /home/willem/.cabal/world
+world-file: /.cabal/world
 -- verbose: 1
 -- compiler: ghc
 -- with-compiler:
@@ -35,7 +36,7 @@ world-file: /home/willem/.cabal/world
 -- flags:
 -- extra-include-dirs:
 -- extra-lib-dirs:
-extra-prog-path: /home/willem/.cabal/bin
+extra-prog-path: /.cabal/bin
 -- tests: False
 -- library-coverage: False
 -- benchmarks: False
@@ -55,7 +56,7 @@ extra-prog-path: /home/willem/.cabal/bin
 -- upgrade-dependencies: False
 -- root-cmd:
 -- symlink-bindir:
-build-summary: /home/willem/.cabal/logs/build.log
+build-summary: /.cabal/logs/build.log
 -- build-log:
 remote-build-reporting: anonymous
 -- one-shot: False
@@ -64,7 +65,7 @@ jobs: $ncpus
 -- password:
 
 install-dirs user
-  -- prefix: /home/willem/.cabal
+  -- prefix: /.cabal
   -- bindir: $prefix/bin
   -- libdir: $prefix/lib
   -- libsubdir: $arch-$os-$compiler/$pkgid
